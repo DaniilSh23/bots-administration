@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+
+<!-- =========================================================
+* Sneat - Bootstrap 5 HTML Admin Template - Pro | v1.0.0
+==============================================================
+
+* Product Page: https://themeselection.com/products/sneat-bootstrap-html-admin-template/
+* Created by: ThemeSelection
+* License: You must have a valid license purchased in order to legally use the theme for your project.
+* Copyright ThemeSelection (https://themeselection.com)
+
+=========================================================
+ -->
+<!-- beautify ignore:start -->
+<html
+  lang="ru"
+  class="light-style layout-menu-fixed"
+  dir="ltr"
+  data-theme="theme-default"
+  data-assets-path="/static/service_desk_bot/site_donor/assets/"
+  data-template="vertical-menu-template-free"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+
+    <title>Подать заявку</title>
+
+    <meta name="description" content="" />
+
+    <!--скрипт telegram-->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/static/service_desk_bot/site_donor/assets/img/favicon/favicon.ico" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Icons. Uncomment required icon fonts -->
+    <link rel="stylesheet" href="/static/service_desk_bot/site_donor/assets/vendor/fonts/boxicons.css" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="/static/service_desk_bot/site_donor/assets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="/static/service_desk_bot/site_donor/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="/static/service_desk_bot/site_donor/assets/css/demo.css" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="/static/service_desk_bot/site_donor/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+
+    <!-- Page CSS -->
+
+    <!-- Helpers -->
+    <script src="/static/service_desk_bot/site_donor/assets/vendor/js/helpers.js"></script>
+
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="/static/service_desk_bot/site_donor/assets/js/config.js"></script>
+
+    <style>
+        body{
+            color: var(--tg-theme-text-color);
+            background: var(--tg-theme-secondary-bg-color);
+        }
+    </style>
+  </head>
+
+  <body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+      <div class="layout-container">
+        <!-- Layout container -->
+        <div class="layout-page">
+
+          <!-- Content wrapper -->
+          <div class="content-wrapper">
+            <!-- Content -->
+
+            <div class="container-xxl flex-grow-1 container-p-y">
+              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Заявки /</span> Новая заявка</h4>
+
+              <div class="row">
+
+                <!-- Form controls -->
+                <div class="col-md-6">
+                  <div class="card mb-4">
+                    <h5 class="card-header">Подать заявку</h5>
+                    <div class="card-body">
+
+                      <form method="post" action="{% url 'service_desk_bot:create_new_app' %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.errors }}
+                        <input type="hidden" id="tg-id-input" value="" name="tlg_id">
+                        <div class="mb-3">
+                          <label for="title-input" class="form-label">Наименование</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="title-input"
+                            placeholder="Название проблемы"
+                            name="title"
+                            required
+                          />
+                        </div>
+                        <div class="mb-3">
+                          <label for="select-app-type" class="form-label">Тип заявки</label>
+                          <select class="form-select" id="select-app-type" aria-label="Default select example" name="application_type" required>
+                            {% for i_elem in application_types %}
+                              <option value="{{ i_elem }}">{{ i_elem }}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                        <div class="mb-3">
+                          <label for="select-service-type" class="form-label">Сервис</label>
+                          <select class="form-select" id="select-service-type" aria-label="Default select example" name="service_type" required>
+                            {% for i_elem in service_types %}
+                              <option value="{{ i_elem }}">{{ i_elem }}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                        <div class="mb-3">
+                          <label for="problem-description" class="form-label">Описание</label>
+                          <textarea class="form-control" id="problem-description" rows="3" name="description" required></textarea>
+                        </div>
+
+                        <!--добавление файла-->
+<!--                        <div class="mb-3">-->
+<!--                          <label for="formFile" class="form-label">Файл</label>-->
+<!--                          <input class="form-control" type="file" id="formFile" name="file">-->
+<!--                        </div>-->
+
+                        <div class="mb-3">
+                          <button type="submit" class="btn rounded-pill btn-info">Создать заявку</button>
+<!--                        <button type="button" class="btn rounded-pill btn-primary">Primary</button>-->
+<!--                        <button type="button" class="btn rounded-pill btn-secondary">Secondary</button>-->
+<!--                        <button type="button" class="btn rounded-pill btn-success">Success</button>-->
+<!--                        <button type="button" class="btn rounded-pill btn-danger">Danger</button>-->
+<!--                        <button type="button" class="btn rounded-pill btn-warning">Warning</button>-->
+<!--                        <button type="button" class="btn rounded-pill btn-info">Info</button>-->
+<!--                        <button type="button" class="btn rounded-pill btn-dark">Dark</button>-->
+                        </div>
+                      </form>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- / Content -->
+
+            <div class="content-backdrop fade"></div>
+          </div>
+          <!-- Content wrapper -->
+        </div>
+        <!-- / Layout page -->
+      </div>
+
+      <!-- Overlay -->
+      <div class="layout-overlay layout-menu-toggle"></div>
+    </div>
+    <!-- / Layout wrapper -->
+
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="/static/service_desk_bot/site_donor/assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="/static/service_desk_bot/site_donor/assets/vendor/libs/popper/popper.js"></script>
+    <script src="/static/service_desk_bot/site_donor/assets/vendor/js/bootstrap.js"></script>
+    <script src="/static/service_desk_bot/site_donor/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+    <script src="/static/service_desk_bot/site_donor/assets/vendor/js/menu.js"></script>
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+
+    <!-- Main JS -->
+    <script src="/static/service_desk_bot/site_donor/assets/js/main.js"></script>
+
+    <!-- Page JS -->
+    <script src="/static/service_desk_bot/site_donor/assets/js/form-basic-inputs.js"></script>
+
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    <!-- скрипт для работы с данными от телеги-->
+    <script>
+      var tgObject = window.Telegram.WebApp;
+      tgObject.expand() // расширяем окно на весь экран
+      tgObject.ready() // убираем индикатор загрузки вверху окна
+      document.getElementById('tg-id-input').value = tgObject.initDataUnsafe.user.id;
+    </script>
+
+  </body>
+</html>

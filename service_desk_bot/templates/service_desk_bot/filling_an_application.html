@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        body{
+            color: var(--tg-theme-text-color);
+            background: var(--tg-theme-bg-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 18px;
+        }
+    </style>
+    <!--скрипт telegram-->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <h1>Service Desk Bot</h1>
+    <h2 id="telegram-id">Telegram id: </h2>
+    <label for="tg-id-input">Твой Telegram ID:</label>
+    <input type="text" readonly id="tg-id-input">
+
+    <hr>
+    <h3>ThemeParams:</h3>
+    <ul>
+        <li id="bg_color"></li>
+        <li id="text_color"></li>
+        <li id="hint_color"></li>
+        <li id="link_color"></li>
+        <li id="button_color"></li>
+        <li id="button_text_color"></li>
+        <li id="secondary_bg_color"></li>
+        <li id="color_scheme"></li>
+        <li id="themeParams"></li>
+        <li id="isExpanded"></li>
+    </ul>
+
+    <script>
+        var tgObject = window.Telegram.WebApp;
+
+        tgObject.expand() // расширяем окно на весь экран
+        tgObject.ready() // метод, который информирует телегу о том, что веб-приложуха загружена и можно скрыть индикатор загрузки вверху окна
+
+        var telegramIdElement = document.getElementById('telegram-id');
+        telegramIdElement.innerHTML = 'Telegram id: ' + tgObject.initDataUnsafe.user.id;
+        document.getElementById('tg-id-input').value = tgObject.initDataUnsafe.user.id;
+
+        var liBgColor = document.getElementById('bg_color');
+        var liTextColor = document.getElementById('text_color');
+        var liHintColor = document.getElementById('hint_color');
+        var liLinkColor = document.getElementById('link_color');
+        var liButtonColor = document.getElementById('button_color');
+        var liButtonTextColor = document.getElementById('button_text_color');
+        var liSecondaryBgColor = document.getElementById('secondary_bg_color');
+        var liColorScheme = document.getElementById('color_scheme');
+        var liThemeParams = document.getElementById('themeParams');
+        var liThemeParams = document.getElementById('isExpanded');
+
+        liBgColor.innerHTML = 'bg_color: ' + tgObject.themeParams.bg_color;
+        liBgColor.innerHTML = 'text_color: ' + tgObject.themeParams.text_color;
+        liBgColor.innerHTML = 'hint_color: ' + tgObject.themeParams.hint_color;
+        liBgColor.innerHTML = 'link_color: ' + tgObject.themeParams.link_color;
+        liBgColor.innerHTML = 'button_color: ' + tgObject.themeParams.button_color;
+        liBgColor.innerHTML = 'button_text_color: ' + tgObject.themeParams.button_text_color;
+        liBgColor.innerHTML = 'secondary_bg_color: ' + tgObject.themeParams.secondary_bg_color;
+        liColorScheme.innerHTML = 'color_scheme: ' + tgObject.colorScheme;
+        liThemeParams.innerHTML = 'themeParams: ' + tgObject.themeParams;
+        liThemeParams.innerHTML = 'isExpanded: ' + tgObject.isExpanded;
+
+        tgObject.MainButton.text = "Changed Text"; //изменяем текст кнопки
+        tgObject.MainButton.setText("Changed Text1"); //изменяем текст кнопки иначе
+        tgObject.MainButton.textColor = "#F55353"; //изменяем цвет текста кнопки
+        tgObject.MainButton.color = "#143F6B"; //изменяем цвет бэкграунда кнопки
+        tgObject.MainButton.show(); //показываем кнопку
+        tgObject.MainButton.enable(); //показываем
+
+        tgObject.MainButton.onClick(function() {
+            telegramIdElement.innerHTML = 'Основная кнопка нажата.';
+            tgObject.sendData("some string that we need to send") // отправляем данные в виде строки
+            tgObject.close() // закрываем окно WebApp
+        });
+    </script>
+
+</body>
+</html>
